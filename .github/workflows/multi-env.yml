@@ -1,0 +1,30 @@
+name: multi-environment
+on: 
+  push:
+    branches:
+      - main
+      - dev
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build
+        run: docker build -t htmlimage .
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - run: echo "deploying dev"
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - run: echo "deploying prod"
+      
+    
