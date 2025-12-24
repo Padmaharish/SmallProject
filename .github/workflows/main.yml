@@ -1,0 +1,19 @@
+name: CI pipeline
+on: 
+  push:
+    branches: 
+      - main
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build image
+        run: docker build -t htmlimage .
+      - name: create container and run
+        run: docker run -d -p 8081:80 htmlimage
+    
+    
+      
+      
